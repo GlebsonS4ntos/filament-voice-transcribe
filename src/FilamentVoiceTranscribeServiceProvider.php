@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace GlebsonS4ntos\FilamentVoiceTranscribe;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
@@ -13,14 +13,14 @@ use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
-use VendorName\Skeleton\Testing\TestsSkeleton;
+use GlebsonS4ntos\FilamentVoiceTranscribe\Commands\FilamentVoiceTranscribeCommand;
+use GlebsonS4ntos\FilamentVoiceTranscribe\Testing\TestsFilamentVoiceTranscribe;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class FilamentVoiceTranscribeServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'skeleton';
+    public static string $name = 'filament-voice-transcribe';
 
-    public static string $viewNamespace = 'skeleton';
+    public static string $viewNamespace = 'filament-voice-transcribe';
 
     public function configurePackage(Package $package): void
     {
@@ -36,7 +36,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub(':vendor_slug/:package_slug');
+                    ->askToStarRepoOnGitHub('glebsons4ntos/filament-voice-transcribe');
             });
 
         $configFileName = $package->shortName();
@@ -80,18 +80,18 @@ class SkeletonServiceProvider extends PackageServiceProvider
         if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/skeleton/{$file->getFilename()}"),
-                ], 'skeleton-stubs');
+                    $file->getRealPath() => base_path("stubs/filament-voice-transcribe/{$file->getFilename()}"),
+                ], 'filament-voice-transcribe-stubs');
             }
         }
 
         // Testing
-        Testable::mixin(new TestsSkeleton);
+        Testable::mixin(new TestsFilamentVoiceTranscribe);
     }
 
     protected function getAssetPackageName(): ?string
     {
-        return ':vendor_slug/:package_slug';
+        return 'glebsons4ntos/filament-voice-transcribe';
     }
 
     /**
@@ -100,9 +100,9 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            // AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            // Css::make('skeleton-styles', __DIR__ . '/../resources/dist/skeleton.css'),
-            // Js::make('skeleton-scripts', __DIR__ . '/../resources/dist/skeleton.js'),
+            // AlpineComponent::make('filament-voice-transcribe', __DIR__ . '/../resources/dist/components/filament-voice-transcribe.js'),
+            // Css::make('filament-voice-transcribe-styles', __DIR__ . '/../resources/dist/filament-voice-transcribe.css'),
+            // Js::make('filament-voice-transcribe-scripts', __DIR__ . '/../resources/dist/filament-voice-transcribe.js'),
         ];
     }
 
@@ -112,7 +112,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            SkeletonCommand::class,
+            FilamentVoiceTranscribeCommand::class,
         ];
     }
 
@@ -146,7 +146,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getMigrations(): array
     {
         return [
-            'create_skeleton_table',
+            'create_filament-voice-transcribe_table',
         ];
     }
 }

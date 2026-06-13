@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace GlebsonS4ntos\FilamentVoiceTranscribe\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class FilamentVoiceTranscribeCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'filament-voice-transcribe';
 
     public $description = 'My command';
 
