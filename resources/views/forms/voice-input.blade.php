@@ -55,12 +55,11 @@
                         class="fi-voice-transcribe-btn"
                         style="display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 0; border-radius: 9999px; background: transparent;"
                         x-on:click="startRecording"
-                        x-bind:disabled="! isSupported"
+                        x-bind:disabled="! isSupported || @js($isDisabled)"
                         x-bind:class="{
                             'fi-voice-transcribe-btn-recording': isRecording,
                             'fi-voice-transcribe-btn-disabled': ! isSupported,
                         }"
-                        @disabled($isDisabled)
                         aria-label="Transcrever por voz"
                     >
                         <x-filament::icon
@@ -92,12 +91,11 @@
                             class="fi-voice-transcribe-btn"
                             style="display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 0; border-radius: 9999px; background: transparent;"
                             x-on:click="startRecording"
-                            x-bind:disabled="! isSupported"
+                            x-bind:disabled="! isSupported || @js($isDisabled)"
                             x-bind:class="{
                                 'fi-voice-transcribe-btn-recording': isRecording,
                                 'fi-voice-transcribe-btn-disabled': ! isSupported,
                             }"
-                            @disabled($isDisabled)
                             aria-label="Transcrever por voz"
                         >
                             <x-filament::icon
@@ -115,12 +113,11 @@
                             class="fi-voice-transcribe-btn"
                             style="display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 0; border-radius: 9999px; background: transparent;"
                             x-on:click="startRecording"
-                            x-bind:disabled="! isSupported"
+                            x-bind:disabled="! isSupported || @js($isDisabled)"
                             x-bind:class="{
                                 'fi-voice-transcribe-btn-recording': isRecording,
                                 'fi-voice-transcribe-btn-disabled': ! isSupported,
                             }"
-                            @disabled($isDisabled)
                             aria-label="Transcrever por voz"
                         >
                             <x-filament::icon
@@ -139,12 +136,11 @@
                         class="fi-voice-transcribe-btn"
                         style="display: inline-flex; align-items: center; justify-content: center; width: 2rem; height: 2rem; border: 0; border-radius: 9999px; background: transparent;"
                         x-on:click="startRecording"
-                        x-bind:disabled="! isSupported"
+                        x-bind:disabled="! isSupported || @js($isDisabled)"
                         x-bind:class="{
                             'fi-voice-transcribe-btn-recording': isRecording,
                             'fi-voice-transcribe-btn-disabled': ! isSupported,
                         }"
-                        @disabled($isDisabled)
                         aria-label="Transcrever por voz"
                     >
                         <x-filament::icon
