@@ -30,6 +30,36 @@
     margin-left: 1.25rem;
 }
 
+.fi-voice-speak-layout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.fi-voice-speak-content {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    gap: 0.5rem;
+}
+
+.fi-voice-speak-text {
+    min-width: 0;
+}
+
+.fi-voice-speak-side {
+    display: flex;
+    align-items: center;
+}
+
+.fi-voice-speak-side-prefix {
+    margin-right: 1.25rem;
+}
+
+.fi-voice-speak-side-suffix {
+    margin-left: 1.25rem;
+}
+
 .fi-voice-transcribe-btn {
     display: inline-flex;
     align-items: center;

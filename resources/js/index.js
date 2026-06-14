@@ -3,11 +3,14 @@ export default function filamentVoiceTranscribe({ state, language }) {
         state,
         language,
         isSupported: false,
+        isSpeechSynthesisSupported: false,
         isRecording: false,
+        isSpeaking: false,
         error: null,
         recognition: null,
         baseState: '',
         shouldStopRecording: false,
+        voices: [],
 
         init() {
             this.validateSupport();
@@ -17,6 +20,12 @@ export default function filamentVoiceTranscribe({ state, language }) {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
             this.isSupported = Boolean(SpeechRecognition);
+            this.isSpeechSynthesisSupported = 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window;
+
+            if (this.isSpeechSynthesisSupported) {
+                this.loadVoices();
+                window.speechSynthesis.onvoiceschanged = () => this.loadVoices();
+            }
 
             if (! this.isSupported) {
                 return;
@@ -124,6 +133,83 @@ export default function filamentVoiceTranscribe({ state, language }) {
 
         normalizeTranscript(value) {
             return String(value ?? '').trim();
+        },
+
+        speakText(text = null) {
+            if (! this.isSpeechSynthesisSupported) {
+                return;
+            }
+
+            this.loadVoices();
+
+            if (text instanceof Event) {
+                text = null;
+            }
+
+            const content = this.normalizeTranscript(text ?? this.state);
+
+            if (content.length === 0) {
+                return;
+            }
+
+            if (this.isSpeaking) {
+                window.speechSynthesis.cancel();
+                this.isSpeaking = false;
+
+                return;
+            }
+
+            const utterance = new SpeechSynthesisUtterance(content);
+            const preferredVoice = this.getPreferredVoice();
+
+            utterance.lang = this.language || 'en-US';
+
+            if (preferredVoice) {
+                utterance.voice = preferredVoice;
+            }
+
+            utterance.onend = () => {
+                this.isSpeaking = false;
+            };
+
+            utterance.onerror = () => {
+                this.isSpeaking = false;
+            };
+
+            this.isSpeaking = true;
+            window.speechSynthesis.speak(utterance);
+        },
+
+        getPreferredVoice() {
+            const voices = this.voices;
+
+            if (voices.length === 0) {
+                return null;
+            }
+
+            const exactLanguage = this.normalizeLocale(this.language);
+            const baseLanguage = this.normalizeLanguage(this.language);
+
+            if (exactLanguage.length === 0) {
+                return null;
+            }
+
+            const exactLanguageVoices = voices.filter((voice) => this.normalizeLocale(voice.lang) === exactLanguage);
+            const baseLanguageVoices = voices.filter((voice) => this.normalizeLanguage(voice.lang) === baseLanguage);
+
+            return exactLanguageVoices[0] ?? baseLanguageVoices[0] ?? null;
+        },
+
+        normalizeLanguage(language) {
+            return this.normalizeLocale(language).split('-')[0];
+        },
+
+        normalizeLocale(language) {
+            return String(language || '').replaceAll('_', '-').toLowerCase();
+        },
+
+        loadVoices() {
+            this.voices = window.speechSynthesis.getVoices();
         },
     }
 }
