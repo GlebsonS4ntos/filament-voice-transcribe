@@ -50,3 +50,11 @@ compile({
 }).then(() => {
     console.log(`Build completed for filament-voice-transcribe.js`)
 })
+
+compile({
+    ...defaultOptions,
+    entryPoints: ['./resources/css/index.css'],
+    outfile: './resources/dist/filament-voice-transcribe.css',
+}).then(() => {
+    console.log(`Build completed for filament-voice-transcribe.css`)
+})
