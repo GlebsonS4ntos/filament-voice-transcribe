@@ -1,4 +1,8 @@
 @php
+    use Illuminate\Support\HtmlString;
+    use Illuminate\Support\Js;
+    use Illuminate\View\ComponentAttributeBag;
+
     $state = $getState();
     $placeholder = $getPlaceholder();
     $voiceLanguage = $getVoiceLanguage();
@@ -8,6 +12,35 @@
     $suffixVoiceButtonPosition = $getVoiceButtonPosition() === \GlebsonS4ntos\FilamentVoiceTranscribe\Enums\VoiceButtonPositionEnum::Suffix;
     $inlineButton = $isInlineButton();
     $speakableText = filled($state) ? (string) $state : '';
+
+    $isCopyable = filled($state) && $entry->isCopyable($state);
+    $copyableStateJs = $isCopyable
+        ? Js::from($entry->getCopyableState($state) ?? $entry->formatState($state))
+        : null;
+    $copyMessageJs = $isCopyable
+        ? Js::from($entry->getCopyMessage($state))
+        : null;
+    $copyMessageDurationJs = $isCopyable
+        ? Js::from($entry->getCopyMessageDuration($state))
+        : null;
+
+    $textAttributes = (new ComponentAttributeBag)
+        ->class([
+            'fi-in-text',
+            'fi-voice-speak-text',
+            'fi-copyable' => $isCopyable,
+        ])
+        ->merge([
+            'x-on:click' => $isCopyable
+                ? new HtmlString(<<<JS
+                window.navigator.clipboard.writeText({$copyableStateJs})
+                \$tooltip({$copyMessageJs}, {
+                    theme: \$store.theme,
+                    timeout: {$copyMessageDurationJs},
+                })
+                JS)
+                : null,
+        ], escape: false);
 @endphp
 
 <x-filament-infolists::entry-wrapper :entry="$entry">
@@ -63,7 +96,7 @@
                 @endif
 
                 @if (filled($state))
-                    <div class="fi-in-text fi-voice-speak-text">
+                    <div {{ $textAttributes }}>
                         {{ $state }}
                     </div>
                 @elseif (filled($placeholder))
