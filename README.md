@@ -10,7 +10,7 @@ Use it to transcribe speech into form fields with the browser Speech Recognition
 ## Requirements
 
 - PHP 8.2+
-- Laravel with Filament 5
+- Laravel with Filament 4
 - A browser with Web Speech API support
 
 ## Installation
